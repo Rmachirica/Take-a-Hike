@@ -1,47 +1,38 @@
-//Dependencies
+// Import Dependencies
 const express = require("express");
 const app = express();
 const path = require("path");
 const router = express.Router();
 
-//handles parsing content in the req.body from post/update requests
-app.use(express.json());
+// Set Distribution Path
+const PORT = 5555;
+const distPath = path.resolve(__dirname, "..", "dist"); //serves the hmtl file of the application as default on load
 
-//serves the hmtl file of the application as default on load
-const distPath = path.resolve(__dirname, "..", "dist");
+// Use Middleware
+app.use(express.json()); // handles parsing content in the req.body from post/update requests
+app.use(express.static(distPath)); // Statically serves up client directory
+app.use(express.urlencoded({ extended: true })); // Parses url (allows arrays and objects)
 
-app.use(express.static(distPath));
+// Create API Routes
 
-/**
- * handles incoming requests from the client side
- */
 
-// app.get("/", (req, res) => {
-//   // Sending This is the home page! in the page
-//   res.status(200).send(app.use(express.static(distPath)));
+
+// app.get('/', (req, res) => { // Main Page GET ROUTE
+//   res.send('<a href="/auth/google">Authenticate with google</a>')
 // });
 
-// Routes
+// app.get('/!!user')
 
-app.get('/', (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with google</a>')
-});
-
-app.get('/!!user')
-
-
-
-router.get('/login', function(req, res, next) {
-  res.render('login')
-});
+// router.get('/login', function(req, res, next) { // Login GET ROUTE
+//   res.render('login')
+// });
 
 
 // launches the server from localhost on port 5555
-let PORT = 5555;
 app.listen(PORT, () => {
   console.log(`
   Listening at: http://localhost:${PORT}
   `);
 });
 
-//app.use(express.urlencoded({ extended: true }));
+

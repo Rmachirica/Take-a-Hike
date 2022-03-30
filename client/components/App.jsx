@@ -6,7 +6,7 @@ import Login from "./Login.jsx"
 // Import Components
 // import Login from "./Login.jsx"
 import Quartermaster from "./Quartermaster.jsx";
-import TrailFeathers from "./TrailFeathers.jsx";
+import BirdingCheckList from "./BirdingCheckList.jsx";
 import Trails from "./Trails.jsx";
 import TrailsList from "./TrailsList.jsx";
 import UserProfile from "./UserProfile.jsx";
