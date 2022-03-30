@@ -1,5 +1,6 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import TrailCard from './TrailCard.jsx';
 
 const TrailsList = () => {
   return (
