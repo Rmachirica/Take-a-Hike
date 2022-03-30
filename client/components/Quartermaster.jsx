@@ -1,6 +1,13 @@
 //import React from "react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PackingList from "./PackingList.jsx";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 const Quartermaster = () => {
   // assign the state variable to an object with listName and items, and array
@@ -8,8 +15,7 @@ const Quartermaster = () => {
     listName: "",
     listItem: "",
     packingListNames: [],
-    isSubmit: false,
-    islistName: true,
+    packingListDescription: "",
   });
 
   //captures input list name from the user
@@ -31,72 +37,68 @@ const Quartermaster = () => {
   const handleSubmit = (event) => {
     //allow react to control the state variables changed on change
     event.preventDefault();
-    alert("packing list saved successfully!");
+    alert("Packing list saved successfully!");
     setPackingList((state) => ({
       ...state,
-      packingListNames: [...state.listName],
-      listName: (state.listItem = ""),
-      listItem: (state.listName = ""),
-      isSubmit: !state.isSubmit,
+      packingListNames: state.packingListNames.push(state.listName),
+      // listName: (state.listItem = ""),
+      // listItem: (state.listName = ""),
     }));
     console.log("plus the packingList itself", packingList);
   };
 
   //maps and dysplays the packing list
-  const list = packingList.listItem.split(",").map((item, i) => {
+  console.log(packingList.packingListNames, "Running or what?");
+  // const list = () => {
+  //   console.log(packingList.packingListNames, "Running or");
+  const listNames = packingList.packingListNames.map((item, i) => {
     return <li>{item}</li>;
   });
 
-  //maps over the listNames array and displays it on a dropdown
-  // const listNames = packingList.packingListNames.map((listName) => {
-  //   return <option value="listName">{listName}</option>;
-  // });
-
-  const handlePopulateDropDown = () => {
-    axios
-      .post("api/user/:id", {
-        listName: packingList.listName,
-        listItem: packingList.listItem,
-      })
-      .then(() => {})
-      .catch(() => {});
-  };
-
   return (
     <>
+      <h3 className="header">Quartermaster</h3>
+      <div className="quart-description">
+        <p>Make and save the lists you'll need for your hiking adventures</p>
+      </div>
       <form onSubmit={handleSubmit}>
-        Packing list name:
-        <br />
         <br />
         <input
           type="text"
-          placeholder="List Name"
+          placeholder="Packing list name"
           onChange={handleChange}
           name="listName"
           value={packingList.listName}
         />
         <br></br>
         <br></br>
-        Items for my list:
-        <br></br>
-        <br></br>
         <input
           type="text"
-          placeholder="list Item"
+          placeholder="What's this list for?"
           onChange={handleChange}
-          name="listItem"
-          value={packingList.listItem}
+          name="packingListDescription"
+          value={packingList.packingListDescription}
         />
         <br></br>
         <br></br>
-        <button type="submit">Save packing list</button>
-        {/* <div>
-          <h4>{packingList.listName}</h4>
-          <br></br>
-          {list}
-        </div> */}
+        <button type="submit">Create and save</button>
       </form>
       <br></br>
+      <br></br>
+      <div>
+        <h4>My packing lists</h4>
+        {packingList.packingListNames === undefined ? null : listNames}
+      </div>
+      <PackingList />
+    </>
+  );
+};
+
+export default Quartermaster;
+
+//list items
+{
+  /* <br></br>
       <br></br>
       <div>My packing lists:</div>
       <select
@@ -108,9 +110,17 @@ const Quartermaster = () => {
         {packingList.listName.split(" ").map((listName) => {
           return <option value="listName">{listName}</option>;
         })}
-      </select>
-    </>
-  );
-};
+      </select> */
+}
 
-export default Quartermaster;
+// };
+
+// const handlePopulateDropDown = () => {
+//   axios
+//     .post("api/user/:id", {
+//       listName: packingList.listName,
+//       listItem: packingList.listItem,
+//     })
+//     .then(() => {})
+//     .catch(() => {});
+// };
