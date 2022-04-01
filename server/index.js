@@ -7,7 +7,10 @@ const { PackingLists } = require("./database/models/packingLists");
 // PackingLists.sync();
 // const { default: PackingList } = require("../client/components/PackingList");
 const router = express.Router();
-const { cloudinary } = require("./utils/coudinary");
+const session = require('express-session')
+const passport = require('passport');
+require('./middleware/auth.js')
+const { cloudinary } = require('./utils/coudinary');
 
 // // Import DB
 // const { db } = require('./database/index.js')
@@ -26,12 +29,53 @@ const app = express();
 app.use(express.json()); // handles parsing content in the req.body from post/update requests
 app.use(express.static(distPath)); // Statically serves up client directory
 app.use(express.urlencoded({ extended: true })); // Parses url (allows arrays and objects)
-
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+app.use(passport.initialize());
 // Create API Routes
+app.use(passport.session());
 
-// app.get('/', (req, res) => { // Main Page GET ROUTE
-//   res.send('<a href="/auth/google">Authenticate with google</a>')
-// });
+//Auth Routes
+const checkAuthenticated = (req, res, next) => {
+  console.log(session)
+  if (req.isAuthenticated()) { return next() }
+  res.redirect("/login")
+}
+
+app.get('/', (req, res) => {
+  res.send('<a href="/auth/google">Authenticate with google</a>')
+});
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: [ 'email', 'profile' ]
+}));
+
+app.get('/auth/google/callback', passport.authenticate( 'google', {
+   successRedirect: '/dashboard',
+   failureRedirect: '/login'
+}));
+
+app.get('/auth/failure', (req, res) => {
+  res.send('did not authenticate');
+})
+
+app.get('/dashboard', checkAuthenticated, (req, res) => {
+  res.render('index', (err, html) => {
+    res.send(html)
+  });
+})
+
+app.post("/logout", (req,res) => {
+  req.logOut()
+  res.redirect("/login")
+  console.log(`-------> User Logged out`)
+})
+
+//Auth Routes end
 
 // app.get('/!!user')
 
@@ -78,7 +122,7 @@ app.get("/api/images", async (req, res) => {
   // console.log(
   //   'SERVER INDEX.JS || CLOUDINARY GET || LINE 38 || resources ==>',
   //   resources
-  // );
+  // ;
   const secureImageUrls = resources.map((image) => image.secure_url);
   res.json(secureImageUrls);
 });
