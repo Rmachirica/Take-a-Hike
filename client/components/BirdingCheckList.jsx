@@ -6,10 +6,11 @@ import axios from "axios";
 // Import Components and Dummy Data
 import BirdProfile from "./BirdProfile.jsx";
 import { dummyBirdData } from "../../copyAPIparkData/dummyBirdData.js";
+// import filteredLABirdsArray from "../../copyAPIparkData/eBirdData.js";
 
 // Create Functional Component
 const BirdingCheckList = () => {
-  // console.log('Dummy Data:', dummyBirdData[0]);
+  // console.log('Dummy Data:', filteredLABirdsArray);
   const [birdSearch, setBirdSearch] = useState("");
   const [birdList, setBirdList] = useState(dummyBirdData);
 

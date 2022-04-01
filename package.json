@@ -26,6 +26,8 @@
     "babel-loader": "^8.2.4",
     "cloudinary": "^1.29.0",
     "cloudinary-react": "^1.7.2",
+    "csv-parse": "^5.0.4",
+    "csv-parser": "^3.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.11.0",
     "express": "^4.17.3",
@@ -48,5 +50,8 @@
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "webpack-cli": "^4.9.2"
+  },
+  "browser": {
+    "fs": false
   }
 }
