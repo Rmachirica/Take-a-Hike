@@ -2,7 +2,7 @@ const mysql = require("mysql2/promise");
 const { db } = require("./index.js");
 const { Trails } = require("./models/trails.js");
 const { dummyParkData } = require("../../copyAPIparkData/dummyDataCopy.js");
-
+const { PackingLists } = require("./models/packingLists");
 db.options.logging = false;
 
 const seedSqlize = () => {
@@ -14,7 +14,7 @@ const seedSqlize = () => {
     .then(() =>
       console.log(
         "\x1b[33m",
-        "\nDatabase (MySQL): 'Trails' successfully created!"
+        "\nDatabase (MySQL): 'TakeAHike' successfully created!"
       )
     )
     .then(() => Trails.sync({ force: true }))
@@ -22,6 +22,13 @@ const seedSqlize = () => {
       console.log(
         "\x1b[36m",
         "\nDatabase (MySQL): 'Trails' table successfully created!"
+      )
+    )
+    .then(() => PackingLists.sync({ force: true }))
+    .then(() =>
+      console.log(
+        "\x1b[36m",
+        "\nDatabase (MySQL): 'PackingLists' table successfully created!"
       )
     )
     .then(() => Promise.all(dummyParkData.map((txn) => Trails.create(txn))))

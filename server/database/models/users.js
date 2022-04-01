@@ -6,6 +6,7 @@ const { db } = require('../index.js');
 const Users = db.define('users', {
   _id: {type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING(80), allowNull: false},
+  birdSightingsArray: {type: DataTypes.ARRAY, allowNull: false}
   // password: {Type: DataTypes.STRING, allowNull: false}, (SANTO!!!!!!)
  });
 

@@ -6,7 +6,8 @@ const { db } = require('../index.js');
 const BirdList = db.define('birdList', {
   _id: {type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING, allowNull: false},
-  img: {type: DataTypes.BLOB, allowNull: false},
+  img: {type: DataTypes.STRING, allowNull: false},
+  sound: {type: DataTypes.STRING, allowNull: false},
  });
 
  // Export Schema

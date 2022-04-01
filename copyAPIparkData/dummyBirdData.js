@@ -55,3 +55,7 @@ const dummyBirdData = [
       'https://1.bp.blogspot.com/-3J0mYi2yXII/YPcgxbtzkpI/AAAAAAAAJTQ/OoJEg44DfAE3Wfi8d4FKGnWxkxl4rDfhQCLcBGAsYHQ/s400/great-crested-flycatcher%2Bsimard%2Bfrancois%2Bpixabay%2B400w.jpg',
   },
 ];
+
+module.exports = {
+  dummyBirdData,
+};

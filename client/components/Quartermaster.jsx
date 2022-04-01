@@ -2,18 +2,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PackingList from "./PackingList.jsx";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
 
 const Quartermaster = () => {
   // assign the state variable to an object with listName and items, and array
   const [packingList, setPackingList] = useState({
     listName: "",
-    listItem: "",
     packingListNames: [],
     packingListDescription: "",
   });
@@ -37,23 +30,33 @@ const Quartermaster = () => {
   const handleSubmit = (event) => {
     //allow react to control the state variables changed on change
     event.preventDefault();
+
+    axios
+      //
+      .post("/api/packingLists", {
+        listName: packingList.listName,
+        packingListDescription: packingList.packingListDescription,
+      })
+      .then((data) => {
+        console.log("Line 47 => this code block was reached", data);
+        setPackingList((state) => ({
+          ...state,
+          packingListNames: state.packingListNames.concat(state.listName),
+          listName: "",
+          packingListDescription: "",
+        }));
+      })
+      .catch((err) => {
+        console.log("Line 50 => this code block was reached", err);
+      });
+
     alert("Packing list saved successfully!");
-    setPackingList((state) => ({
-      ...state,
-      packingListNames: state.packingListNames.push(state.listName),
-      // listName: (state.listItem = ""),
-      // listItem: (state.listName = ""),
-    }));
+
     console.log("plus the packingList itself", packingList);
   };
 
   //maps and dysplays the packing list
   console.log(packingList.packingListNames, "Running or what?");
-  // const list = () => {
-  //   console.log(packingList.packingListNames, "Running or");
-  const listNames = packingList.packingListNames.map((item, i) => {
-    return <li>{item}</li>;
-  });
 
   return (
     <>
@@ -113,14 +116,4 @@ export default Quartermaster;
       </select> */
 }
 
-// };
-
-// const handlePopulateDropDown = () => {
-//   axios
-//     .post("api/user/:id", {
-//       listName: packingList.listName,
-//       listItem: packingList.listItem,
-//     })
-//     .then(() => {})
-//     .catch(() => {});
 // };
